@@ -1,7 +1,13 @@
 //
-// The output of the unmodified program:
-// "The object's position after 10.0 seconds is 0.0m."
-// No wonder!
+// Calculator.go:
+// 	The version of 'Calculator.java' written in Go
+//
+// Invocation:
+// 	$ go run Calculator.go
+//
+// Needs:
+// 	'golang' package installed
+//
 
 package main;
 
@@ -28,11 +34,11 @@ func main() {
  * The Calculator class
  */
 type Calculator struct {
-     /*
-      * Empty so far:
-      * All methods are defined outside
-      * of the class
-      */
+	/*
+	 * Empty so far:
+	 * All methods are defined outside
+	 * of the class
+	 */
 }
 
 
