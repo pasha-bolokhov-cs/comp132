@@ -36,6 +36,7 @@ public class Assign2 {
 		System.out.println("Their area ratio: " + (double)(s.getArea() / t.getArea()));
 		System.out.println("Their volume ratio: " + (double)(s.getVolume() / t.getVolume()));
 		System.out.println("\n\n");
+
 		
 		//
 		// Part 2 - Cash Register
