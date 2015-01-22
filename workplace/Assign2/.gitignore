@@ -1,3 +1,5 @@
-# Ignore the binaries
-bin
+# Ignore everything except the source
+*
+!.gitignore
+!src
 
