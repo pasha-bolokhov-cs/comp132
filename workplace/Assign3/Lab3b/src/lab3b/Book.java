@@ -42,10 +42,10 @@ public class Book {
      * @param none
      */
     public Book() {
-	title = "Princess Academy";
-	author = "Shannon Hale";
-	pages = 215;
-	price = 18.50;
+	title = null;
+	author = null;
+	pages = 0;
+	price = 0.0;
 
 	currentNum = ++bookNum;
     }
@@ -70,7 +70,9 @@ public class Book {
      * @return the output string
      */
     public String toString() {
-        return null;
+        return getIndex() + ":\tTitle:\t" + title + 
+	    "\tauthor:\t" + author + "\tpages:\t" + pages +
+	    "\tprice:\t$" + price;
     }
 
     /**
@@ -161,5 +163,11 @@ public class Book {
 
     /**
      * Get this book's number
+     *
+     * @param	none
+     * @return	this book's number
      */
+    public int getIndex() {
+	return currentNum;
+    }
 }

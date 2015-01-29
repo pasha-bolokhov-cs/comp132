@@ -14,9 +14,8 @@ public class Lab3b {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
 		Book book1 = new Book();
-		Book book2 = new Book("learning Php, MySQL and JavaScript", "Nixon");
+		Book book2 = new Book("Learning Php, MySQL and JavaScript", "Nixon");
 
 		book1.setTitle("The Shining");
 		book1.setPages(450);
