@@ -1,8 +1,6 @@
-/*
- * Do you see the issue?
- */
 package assign4;
 import java.text.NumberFormat;
+
 /**
  *
  * @author saryta
@@ -13,7 +11,7 @@ public class Cart {
 	private double totalPrice;  // total price of items in the cart
 	private int capacity;       // current cart capacity
 	
-	//  Creates an empty shopping cart with a capacity of 5 items.
+	//  Creates an empty shopping cart with a capacity of 10 items.
 	public Cart()
 	{
 		capacity = 10;

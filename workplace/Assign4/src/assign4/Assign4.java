@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package assign4;
 
 import java.text.NumberFormat;
@@ -48,11 +44,11 @@ public class Assign4 {
 		
 		NumberFormat fmt = NumberFormat.getCurrencyInstance();
 		System.out.println ("Please pay... " + fmt.format(cart.getTotal()));
-		
-//		System.out.print("How much are you giving me? ");
-//		double amountReceived = scan.nextDouble();
-//		Register r = new Register();
-//		System.out.println("Your change is: " + fmt.format(r.change(cart.getTotal(), amountReceived)));
-//		System.out.println(r.toString());
+
+		System.out.print("How much are you giving me? ");
+		double amountReceived = scan.nextDouble();
+		Register r = new Register();
+		System.out.println("Your change is: " + fmt.format(r.change(cart.getTotal(), amountReceived)));
+		System.out.println(r.toString());
 	}
 }
