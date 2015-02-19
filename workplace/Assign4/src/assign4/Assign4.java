@@ -26,9 +26,9 @@ public class Assign4 {
 		System.out.print("Enter the name of the first item: ");
 		itemName = scan.nextLine();
 		while (!itemName.equals("q") && !itemName.equals("Q")) {
-			System.out.print ("Enter the quantity: ");
+			System.out.print("Enter the quantity: ");
 			quantity = scan.nextInt();
-			System.out.print ("Enter the price: ");
+			System.out.print("Enter the price: ");
 			price = scan.nextDouble();
 			scan.nextLine();    // read over to the end of line
 		

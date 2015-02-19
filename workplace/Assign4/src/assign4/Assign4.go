@@ -1,45 +1,45 @@
 package assign4;
 
-import "fmt";
+import "fmt"
 
 /**
  * @param args the command line arguments
  */
 func main() {
-	itemName string;
-	quantity int;
-	price float64;
+	var itemName string;
+	var quantity int;
+	var price float64;
 
 //	Cart cart = new Cart();
 	
 	fmt.Println("Welcome to Shopper's Paradise");
-	System.out.println();
+	fmt.Println();
 	
-	System.out.print("Enter the name of the first item: ");
-	itemName = scan.nextLine();
-	while (!itemName.equals("q") && !itemName.equals("Q")) {
-		System.out.print ("Enter the quantity: ");
-		quantity = scan.nextInt();
-		System.out.print ("Enter the price: ");
-		price = scan.nextDouble();
-		scan.nextLine();    // read over to the end of line
-	
-		cart.addToCart(itemName, price, quantity);
-	
-		System.out.print ("Enter the name of the next item or Q to quit: ");
-		itemName = scan.nextLine();
-	}
-	
-	System.out.println();
-	System.out.println(cart);
-	System.out.println();
-	
-	NumberFormat fmt = NumberFormat.getCurrencyInstance();
-	System.out.println ("Please pay... " + fmt.format(cart.getTotal()));
-
-	System.out.print("How much are you giving me? ");
-	double amountReceived = scan.nextDouble();
-	Register r = new Register();
-	System.out.println("Your change is: " + fmt.format(r.change(cart.getTotal(), amountReceived)));
-	System.out.println(r.ToString());
+	fmt.Print("Enter the name of the first item: ");
+//	itemName = scan.nextLine();
+//	while (!itemName.equals("q") && !itemName.equals("Q")) {
+//		fmt.Print("Enter the quantity: ");
+//		quantity = scan.nextInt();
+//		fmt.Print("Enter the price: ");
+//		price = scan.nextDouble();
+//		scan.nextLine();    // read over to the end of line
+//	
+//		cart.addToCart(itemName, price, quantity);
+//	
+//		fmt.Print ("Enter the name of the next item or Q to quit: ");
+//		itemName = scan.nextLine();
+//	}
+//	
+//	fmt.Println();
+//	fmt.Println(cart);
+//	fmt.Println();
+//	
+//	NumberFormat fmt = NumberFormat.getCurrencyInstance();
+//	fmt.Println ("Please pay... " + fmt.format(cart.getTotal()));
+//
+//	fmt.Print("How much are you giving me? ");
+//	float64 amountReceived = scan.nextDouble();
+//	Register r = new Register();
+//	fmt.Println("Your change is: " + fmt.format(r.change(cart.getTotal(), amountReceived)));
+//	fmt.Println(r.ToString());
 }

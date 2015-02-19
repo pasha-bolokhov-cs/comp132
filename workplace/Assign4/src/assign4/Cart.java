@@ -12,8 +12,7 @@ public class Cart {
 	private int capacity;       // current cart capacity
 	
 	//  Creates an empty shopping cart with a capacity of 10 items.
-	public Cart()
-	{
+	public Cart() {
 		capacity = 10;
 		itemCount = 0;
 		totalPrice = 0.0;
@@ -21,8 +20,7 @@ public class Cart {
 	}
 	
 	//  Adds an item to the shopping cart.
-	public void addToCart(String itemName, double price, int quantity)
-	{
+	public void addToCart(String itemName, double price, int quantity) {
 		cart[itemCount] = new Item(itemName, price, quantity);
 		itemCount++;
 	    
@@ -31,15 +29,15 @@ public class Cart {
 	
 	//  Returns the contents of the cart together with
 	//  summary information.
-	public String toString()
-	{
+	public String toString() {
 		NumberFormat fmt = NumberFormat.getCurrencyInstance();
 	
 		String contents = "\nShopping Cart\n";
 		contents += "\nItem\t\tUnit Price\tQuantity\tTotal\n";
 	
-		for (int i = 0; i < itemCount; i++)
+		for (int i = 0; i < itemCount; i++) {
 		    contents += cart[i].toString() + "\n";
+		}
 	
 		contents += "\nTotal Price: " + fmt.format(totalPrice);
 		contents += "\n";
@@ -48,8 +46,7 @@ public class Cart {
 	}
 	
 	//  Returns the total price of the items in the cart.
-	public double getTotal()
-	{
+	public double getTotal() {
 		return totalPrice;
 	}    
 }

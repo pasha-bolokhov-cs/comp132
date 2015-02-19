@@ -9,16 +9,14 @@ public class Item {
 	private int quantity;	// how many of the item
 	
 	//  Create a new item with the given attributes.
-	public Item (String itemName, double itemPrice, int numPurchased)
-	{
+	public Item (String itemName, double itemPrice, int numPurchased) {
 		name = itemName;
 		price = itemPrice;
 		quantity = numPurchased;
 	}
 	
 	//   Return a string with the information about the item
-	public String toString ()
-	{
+	public String toString () {
 		NumberFormat fmt = NumberFormat.getCurrencyInstance();
 		String item;
 
@@ -28,20 +26,17 @@ public class Item {
 	}
 	
 	//   Returns the unit price of the item
-	public double getPrice()
-	{
+	public double getPrice() {
 		return price;
 	}
 	
 	//   Returns the name of the item
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 	
 	//   Returns the quantity of the item
-	public int getQuantity()
-	{
+	public int getQuantity() {
 		return quantity;
 	}   
 }
