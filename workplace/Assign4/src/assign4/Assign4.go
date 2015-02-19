@@ -1,4 +1,4 @@
-package assign4;
+package main;
 
 import "fmt"
 
@@ -10,36 +10,35 @@ func main() {
 	var quantity int;
 	var price float64;
 
-//	Cart cart = new Cart();
+	cart := NewCart();
 	
 	fmt.Println("Welcome to Shopper's Paradise");
 	fmt.Println();
 	
 	fmt.Print("Enter the name of the first item: ");
-//	itemName = scan.nextLine();
-//	while (!itemName.equals("q") && !itemName.equals("Q")) {
-//		fmt.Print("Enter the quantity: ");
-//		quantity = scan.nextInt();
-//		fmt.Print("Enter the price: ");
-//		price = scan.nextDouble();
-//		scan.nextLine();    // read over to the end of line
-//	
-//		cart.addToCart(itemName, price, quantity);
-//	
-//		fmt.Print ("Enter the name of the next item or Q to quit: ");
-//		itemName = scan.nextLine();
-//	}
-//	
-//	fmt.Println();
-//	fmt.Println(cart);
-//	fmt.Println();
-//	
-//	NumberFormat fmt = NumberFormat.getCurrencyInstance();
-//	fmt.Println ("Please pay... " + fmt.format(cart.getTotal()));
-//
-//	fmt.Print("How much are you giving me? ");
-//	float64 amountReceived = scan.nextDouble();
-//	Register r = new Register();
-//	fmt.Println("Your change is: " + fmt.format(r.change(cart.getTotal(), amountReceived)));
-//	fmt.Println(r.ToString());
+	fmt.Scanf("%s", &itemName);
+	for (itemName != "q") && (itemName != "Q") {
+		fmt.Print("Enter the quantity: ");
+		fmt.Scanf("%d", &quantity);
+		fmt.Print("Enter the price: ");
+		fmt.Scanf("%g", &price);
+	
+		cart.AddToCart(itemName, price, quantity);
+	
+		fmt.Print("Enter the name of the next item or Q to quit: ");
+		fmt.Scanf("%s", &itemName);
+	}
+	
+	fmt.Println();
+	fmt.Println(cart);
+	fmt.Println();
+	
+	fmt.Println("Please pay... " + CurrencyFormat(cart.GetTotal()));
+
+	fmt.Print("How much are you giving me? ");
+	var amountReceived float64 
+	fmt.Scanf("%g", &amountReceived)
+	r := NewRegister();
+	fmt.Println("Your change is: " + CurrencyFormat(r.change(cart.GetTotal(), amountReceived)));
+	fmt.Println(r.String());
 }

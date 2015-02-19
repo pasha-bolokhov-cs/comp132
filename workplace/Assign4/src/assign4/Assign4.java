@@ -34,7 +34,7 @@ public class Assign4 {
 		
 			cart.addToCart(itemName, price, quantity);
 		
-			System.out.print ("Enter the name of the next item or Q to quit: ");
+			System.out.print("Enter the name of the next item or Q to quit: ");
 			itemName = scan.nextLine();
 		}
 		

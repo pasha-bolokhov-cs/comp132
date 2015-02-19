@@ -1,4 +1,3 @@
-
 package main;
 
 import "fmt"
@@ -22,13 +21,13 @@ func CurrencyFormat(num float64) string {
 	}
 	s += "$"
 
-	quad := int(num / 1.0e+15);	num -= 1.0e+15 * float64(quad);
-	tril := int(num / 1.0e+12);	num -= 1.0e+12 * float64(tril);
-	bill := int(num / 1.0e+09);	num -= 1.0e+09 * float64(bill);
-	mill := int(num / 1.0e+06);	num -= 1.0e+06 * float64(mill);
-	thou := int(num / 1.0e+03);	num -= 1.0e+03 * float64(thou);
-	unit := int(num);		num -= 		 float64(unit);
-	cent := int(math.Floor(num * 100 + 0.5))	// Go doesn't have "round()" yet
+	quad := uint64(num / 1.0e+15);	num -= 1.0e+15 * float64(quad);
+	tril := uint64(num / 1.0e+12);	num -= 1.0e+12 * float64(tril);
+	bill := uint64(num / 1.0e+09);	num -= 1.0e+09 * float64(bill);
+	mill := uint64(num / 1.0e+06);	num -= 1.0e+06 * float64(mill);
+	thou := uint64(num / 1.0e+03);	num -= 1.0e+03 * float64(thou);
+	unit := uint64(num);		num -= 		 float64(unit);
+	cent := uint64(math.Floor(num * 100 + 0.5))	// Go doesn't have "round()" yet
 
 	if (quad != 0) {
 		s += fmt.Sprintf("%d", quad) + ","
@@ -84,14 +83,3 @@ func CurrencyFormat(num float64) string {
 	return s
 }
 
-
-func main() {
-
-	for {
-		var num float64
-
-		fmt.Printf("Enter a number: ")
-		fmt.Scanf("%g", &num)
-		fmt.Printf("The currency format is: " + CurrencyFormat(num) + "\n")
-	}
-}

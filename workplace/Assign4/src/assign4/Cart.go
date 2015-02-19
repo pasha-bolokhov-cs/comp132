@@ -1,13 +1,11 @@
-package assign4;
-
-type Item int; //GG
+package main;
 
 /**
  *
  * @author saryta
  */
 type Cart struct {
-	cart		[]Item;		// an array of Items
+	cart		[]*Item;	// an array of Items
 	itemCount	int;		// total number of items in the cart
 	totalPrice 	float64;	// total price of items in the cart
 	capacity 	int;		// current cart capacity
@@ -19,7 +17,7 @@ func NewCart() *Cart {
 	c.capacity = 10;
 	c.itemCount = 0;
 	c.totalPrice = 0.0;
-	c.cart = make([]Item, 10);
+	c.cart = make([]*Item, 10);
 
 	return c;
 }
@@ -29,7 +27,7 @@ func (c *Cart) AddToCart(itemName string, price float64, quantity int) {
 	c.cart[c.itemCount] = NewItem(itemName, price, quantity);
 	c.itemCount++;
     
-	c.totalPrice += c.price * c.quantity;
+	c.totalPrice += price * float64(quantity);
 }
 
 //  Returns the contents of the cart together with
@@ -40,17 +38,17 @@ func (c *Cart) String() string {
 	contents := "\nShopping Cart\n";
 	contents += "\nItem\t\tUnit Price\tQuantity\tTotal\n";
 
-	for (i int = 0; i < itemCount; i++) {
-	    contents += cart[i].String() + "\n";
+	for i := 0; i < c.itemCount; i++ {
+	    contents += c.cart[i].String() + "\n";
 	}
 
-	contents += "\nTotal Price: " + CurrencyFormat(totalPrice);
+	contents += "\nTotal Price: " + CurrencyFormat(c.totalPrice);
 	contents += "\n";
 
 	return contents;
 }
 
 //  Returns the total price of the items in the cart.
-func GetTotal() float64 {
-	return totalPrice;
+func (c *Cart) GetTotal() float64 {
+	return c.totalPrice;
 }    
