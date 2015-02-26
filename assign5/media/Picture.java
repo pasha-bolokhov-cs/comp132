@@ -98,7 +98,7 @@ public class Picture extends SimplePicture {
 		for (Pixel pixelObj : pixelArray) {
 			// get the red value of the current pixel
 			value = pixelObj.getRed();
-			// decrease the red value by 50%
+			// increase the red value by 50%
 			value = value * 2;
 			// set the red value of the current pixel to the new value
 			pixelObj.setRed(value);
@@ -120,7 +120,7 @@ public class Picture extends SimplePicture {
 			// get the red value of the current pixel
 			value = pixelObj.getRed();
 			// ****** decrease the red value by 30% ********
-			value = (int) (value * (percentage * 100));
+			value = (int) (value * percentage);
 			// set the red value of the current pixel
 			pixelObj.setRed(value);
 		}
@@ -131,10 +131,12 @@ public class Picture extends SimplePicture {
 	 * Method decreases the amount of green in every pixel of this image by half.
 	 */
 	public void decreaseGreen() {
-		int x = 0, y = 0;
+		int x, y;
 
 		// loop through all the pixels in the array
+		x = 0;
 		while (x < this.getWidth()) {
+			y = 0;
 			while (y < this.getHeight()) {
 				Pixel p = this.getPixel(x, y);
 				p.setGreen(p.getGreen() / 2);
@@ -148,10 +150,12 @@ public class Picture extends SimplePicture {
 	 * Method increases the amount of green in every pixel of this image by half.
 	 */
 	public void increaseGreen() {
-		int x = 0, y = 0;
+		int x, y;
 
 		// loop through all the pixels in the array
+		x = 0;
 		while (x < this.getWidth()) {
+			y = 0;
 			while (y < this.getHeight()) {
 				Pixel p = this.getPixel(x, y);
 				p.setGreen(p.getGreen() * 2);
@@ -168,13 +172,15 @@ public class Picture extends SimplePicture {
 	 * as a number from 0-1.
 	 */
 	public void changeGreen(double percentage) {
-		int x = 0, y = 0;
+		int x, y;
 
 		// loop through all the pixels in the array
+		x = 0;
 		while (x < this.getWidth()) {
+			y = 0;
 			while (y < this.getHeight()) {
 				Pixel p = this.getPixel(x, y);
-				p.setGreen((int) (p.getGreen() * (percentage * 100)));
+				p.setGreen((int)(p.getGreen() * percentage));
 				y++;
 			}
 			x++;
