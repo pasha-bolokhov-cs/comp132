@@ -168,7 +168,7 @@ public class Picture extends SimplePicture {
 	/**
 	 * Method changes the amount of green in every pixel by a percentage
 	 *
-	 * @param percentage The percentage by which to decrease the green, expressed
+	 * @param percentage The percentage by which to decrease the blue, expressed
 	 * as a number from 0-1.
 	 */
 	public void changeGreen(double percentage) {
@@ -187,9 +187,64 @@ public class Picture extends SimplePicture {
 		}
 	}
 
+
+	/**
+	 * Method decreases the amount of blue in every pixel of this image by half.
+	 */
+	public void decreaseBlue() {
+		// loop through all the pixels in the array
+		for (int x = 0; x < this.getWidth(); x++) {
+			for (int y = 0; y < this.getHeight(); y++) {
+				Pixel p = this.getPixel(x, y);
+				p.setBlue(p.getBlue() / 2);
+			}
+		}
+	}
 	
+	/**
+	 * Method increases the amount of blue in every pixel of this image by half.
+	 */
+	public void increaseBlue() {
+		// loop through all the pixels in the array
+		for (int x = 0; x < this.getWidth(); x++) {
+			for (int y = 0; y < this.getHeight(); y++) {
+				Pixel p = this.getPixel(x, y);
+				p.setBlue(p.getBlue() * 2);
+			}
+		}
+	}
+	
+	/**
+	 * Method changes the amount of blue in every pixel by a percentage
+	 *
+	 * @param percentage The percentage by which to decrease the blue, expressed
+	 * as a number from 0-1.
+	 */
+	public void changeBlue(double percentage) {
+		// loop through all the pixels in the array
+		for (int x = 0; x < this.getWidth(); x++) {
+			for (int y = 0; y < this.getHeight(); y++) {
+				Pixel p = this.getPixel(x, y);
+				p.setBlue((int)(p.getBlue() * percentage));
+			}
+		}
+	}
+
+
+	/**
+	 * Method changes the components by fractions
+	 *
+	 * @param r	percentage to change the red component
+	 * @param g	percentage to change the green component
+	 * @param b	percentage to change the blue component
+	 */
 	public void changeColours(double r, double g, double b) {
-	
+		Pixel[] pixels = this.getPixels();
+		for (Pixel p: pixels) {
+			p.setRed((int)(p.getRed() * (1.0 + r)));
+			p.setGreen((int)(p.getGreen() * (1.0 + g)));
+			p.setBlue((int)(p.getBlue() * (1.0 + b)));
+		}
 	}
 } // end of class Picture, put all new methods before this
 
