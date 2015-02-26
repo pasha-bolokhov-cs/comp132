@@ -19,7 +19,7 @@ public class Assign5 {
 		pic.repaint();
 
 		Thread.sleep(1000);
-		pic.changeRed(.5);
+		pic.changeRed(-.5);
 		pic.repaint();
 
 		Thread.sleep(1000);
@@ -38,7 +38,7 @@ public class Assign5 {
 		pic.repaint();
 
 		Thread.sleep(1000);
-		pic.changeGreen(.5);
+		pic.changeGreen(-.5);
 		pic.repaint();
 
 		Thread.sleep(1000);
@@ -57,7 +57,7 @@ public class Assign5 {
 		pic.repaint();
 
 		Thread.sleep(1000);
-		pic.changeBlue(.5);
+		pic.changeBlue(-.5);
 		pic.repaint();
 
 		Thread.sleep(1000);

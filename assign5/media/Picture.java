@@ -120,7 +120,7 @@ public class Picture extends SimplePicture {
 			// get the red value of the current pixel
 			value = pixelObj.getRed();
 			// ****** decrease the red value by 30% ********
-			value = (int) (value * percentage);
+			value = (int) (value * (1.0 + percentage));
 			// set the red value of the current pixel
 			pixelObj.setRed(value);
 		}
@@ -180,7 +180,7 @@ public class Picture extends SimplePicture {
 			y = 0;
 			while (y < this.getHeight()) {
 				Pixel p = this.getPixel(x, y);
-				p.setGreen((int)(p.getGreen() * percentage));
+				p.setGreen((int)(p.getGreen() * (1.0 + percentage)));
 				y++;
 			}
 			x++;
@@ -225,7 +225,7 @@ public class Picture extends SimplePicture {
 		for (int x = 0; x < this.getWidth(); x++) {
 			for (int y = 0; y < this.getHeight(); y++) {
 				Pixel p = this.getPixel(x, y);
-				p.setBlue((int)(p.getBlue() * percentage));
+				p.setBlue((int)(p.getBlue() * (1.0 + percentage)));
 			}
 		}
 	}
