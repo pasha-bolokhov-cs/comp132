@@ -8,7 +8,7 @@ public class Assign6 {
 
 	public static void main(String[] args) throws InterruptedException {
 	
-		Picture pic = new Picture ("assign6/night.jpg");
+		Picture pic = new Picture (FileChooser.pickAFile());
 		Picture spare = new Picture(pic);			// save the picture
 		pic.show();
 		Thread.sleep(800);
