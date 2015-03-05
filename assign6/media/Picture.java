@@ -269,7 +269,35 @@ public class Picture extends SimplePicture {
 	public void rotateThisImage(double d)
 	{
 		// We will use a copy of this image
-		spare = new Picture(this);
+		Picture spare = new Picture(this);
+
+		int w = this.getWidth();
+		int h = this.getHeight();
+		double a = d * Math.PI / 180.0;
+		Color blank = new Color(255, 255, 255);
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y++) {
+				/* convert the coordinates to the center reference */
+				double xc = (double) x - w / 2;
+				double yc = h / 2 - (double) y;
+
+				/* find coordinates in the spare picture */
+				double xs =  Math.cos(a) * xc + Math.sin(a) * yc;
+				double ys = -Math.sin(a) * xc + Math.cos(a) * yc;
+
+				/* convert the spare coordinates to picture reference frame */
+				int xsp = (int)(xs + w / 2);
+				int ysp = (int)(h / 2 - ys);
+
+				/* if position is ok, copy the colour, otherwise fill white */
+				Pixel p = this.getPixel(x, y);
+				if (0 <= xsp && xsp < w &&
+				    0 <= ysp && ysp < h)
+					p.setColor(spare.getPixel(xsp, ysp).getColor());
+				else
+					p.setColor(blank);
+			}
+		}
 	}
 
 	/**
