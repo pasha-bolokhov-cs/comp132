@@ -17,8 +17,8 @@ default: classes
 
 classes: $(OBJ) $(SRC)
 
-$(OBJ): $(SRC)
-	javac $(JFLAGS) $(SRC)
+$(OBJ): %.class: %.java
+	javac $(JFLAGS) $<
 
 clean:
 	-$(RM) $(OBJ) *~
