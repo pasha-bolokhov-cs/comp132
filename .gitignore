@@ -4,3 +4,6 @@
 # ignore all classes if any
 *.class
 
+# ingore backups
+*~
+
