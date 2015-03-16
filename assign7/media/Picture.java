@@ -313,12 +313,17 @@ public class Picture extends SimplePicture {
 	/**
 	 * Method creating a collage from a set of pictures
 	 * Assumptions:
-	 *	We resize each picture to size 100 x 100
+	 *	We resize each picture to size 150 x 100
+	 *	Assume a minimum height of this picture to be 150
 	 *
 	 * @param	pics	the array with pictures
 	 */
 	public void makeCollage(Picture pics[])
 	{
+		/* check that there is enough room on the picture */
+		if (this.getHeight() < 150 || 150 * pics.length > this.getWidth())
+			return;
+
 		Graphics2D g = (Graphics2D)(this.getGraphics());
 		
 		double tr = 0.0;
@@ -327,11 +332,11 @@ public class Picture extends SimplePicture {
 			double h = (double)p.getHeight();
 			AffineTransform T = new AffineTransform();
 
-			T.scale(100.0 / w, 100.0 / h);
-			T.translate(tr, 0.0);
+			T.translate(tr, 50.0);
+			T.scale(150.0 / w, 100.0 / h);
 			g.drawImage(p.getBufferedImage(), T, null);
 
-			tr += 100.0;
+			tr += 150.0;
 		}
 	}
 
