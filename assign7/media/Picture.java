@@ -310,10 +310,13 @@ public class Picture extends SimplePicture {
 		rotateThisImage(60);
 	}
 
+
+	public static final int COLLAGE_CELL_WIDTH = 150;
+	public static final int COLLAGE_CELL_HEIGHT = 100;
 	/**
 	 * Method creating a collage from a set of pictures
 	 * Assumptions:
-	 *	We resize each picture to size 150 x 100
+	 *	We resize each picture to size COLLAGE_CELL_WIDTH x COLLAGE_CELL_HEIGHT
 	 *	Assume a minimum height of this picture to be 150
 	 *
 	 * @param	pics	the array with pictures
@@ -321,22 +324,41 @@ public class Picture extends SimplePicture {
 	public void makeCollage(Picture pics[])
 	{
 		/* check that there is enough room on the picture */
-		if (this.getHeight() < 150 || 150 * pics.length > this.getWidth())
+		if (this.getHeight() < COLLAGE_CELL_HEIGHT * 2 + 50 ||
+		    COLLAGE_CELL_HEIGHT * pics.length > this.getWidth()) {
+			System.err.println("Background canvas of insufficient size");
 			return;
+		}
 
 		Graphics2D g = (Graphics2D)(this.getGraphics());
 		
-		double tr = 0.0;
+		/* draw the first row */
+		double trX = 0.0, trY = 50.0;
 		for (Picture p: pics) {
 			double w = (double)p.getWidth();
 			double h = (double)p.getHeight();
 			AffineTransform T = new AffineTransform();
 
-			T.translate(tr, 50.0);
-			T.scale(150.0 / w, 100.0 / h);
+			T.translate(trX, trY);
+			T.scale(((double)COLLAGE_CELL_WIDTH) / w, ((double)COLLAGE_CELL_HEIGHT) / h);
 			g.drawImage(p.getBufferedImage(), T, null);
 
-			tr += 150.0;
+			trX += COLLAGE_CELL_WIDTH;
+		}
+
+		/* draw the second row */
+		trX = 0.0;
+		trY = 150.0;
+		for (Picture p: pics) {
+			double w = (double)p.getWidth();
+			double h = (double)p.getHeight();
+			AffineTransform T = new AffineTransform();
+
+			T.translate(trX, trY);
+			T.scale(((double)COLLAGE_CELL_WIDTH) / w, ((double)COLLAGE_CELL_HEIGHT) / h);
+			g.drawImage(p.getBufferedImage(), T, null);
+
+			trX += COLLAGE_CELL_WIDTH;
 		}
 	}
 
