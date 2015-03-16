@@ -309,5 +309,31 @@ public class Picture extends SimplePicture {
 		/* Rotate 30 degrees counterclockwise */
 		rotateThisImage(60);
 	}
+
+	/**
+	 * Method creating a collage from a set of pictures
+	 * Assumptions:
+	 *	We resize each picture to size 100 x 100
+	 *
+	 * @param	pics	the array with pictures
+	 */
+	public void makeCollage(Picture pics[])
+	{
+		Graphics2D g = (Graphics2D)(this.getGraphics());
+		
+		double tr = 0.0;
+		for (Picture p: pics) {
+			double w = (double)p.getWidth();
+			double h = (double)p.getHeight();
+			AffineTransform T = new AffineTransform();
+
+			T.scale(100.0 / w, 100.0 / h);
+			T.translate(tr, 0.0);
+			g.drawImage(p.getBufferedImage(), T, null);
+
+			tr += 100.0;
+		}
+	}
+
 } // end of class Picture, put all new methods before this
 
