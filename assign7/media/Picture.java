@@ -300,6 +300,7 @@ public class Picture extends SimplePicture {
 		}
 	}
 
+
 	/**
 	 * Method applying a special effect - rotation 
 	 *
@@ -310,6 +311,69 @@ public class Picture extends SimplePicture {
 		rotateThisImage(60);
 	}
 
+	/**
+	 * Make the picture transparent
+	 *
+	 * @param	alpha	how much transparent 
+	 */
+	public void applyTransparent(int alpha)
+	{
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight(); y++) {
+				int p = getBasicPixel(x, y);
+				setBasicPixel(x, y, (p & 0x00ffffff) | (alpha << 24));
+			}
+		}
+	}
+	
+	/**
+	 * Turn picture into greyscale
+	 */
+	public void applyGrayScale()
+	{
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight(); y++) {
+				int p = getBasicPixel(x, y);
+				int grey = (int)(((p & 0xff0000) >> 16) * 0.299 + 
+						 ((p & 0x00ff00) >> 8) * 0.587 + 
+						 ((p & 0x0000ff) * 0.114) / 3.0); 
+				setBasicPixel(x, y, (grey << 16) + (grey << 8) + grey);
+			}
+		}
+	}
+
+	public static final int EFFECT_TRANSPARENT = 0;
+	public static final int EFFECT_EDGE = 1;
+	public static final int EFFECT_SEPIA = 2;
+	public static final int EFFECT_POSTERIZE = 3;
+	public static final int EFFECT_GRAYSCALE = 4;
+	public static final int EFFECT_NUMBER = 5;
+
+	/**
+	 * Apply an effect to a picture
+	 *
+	 * @param	effect	the number of the effect
+	 * @param	picture	the picture to apply the effect to
+	 */
+	public void applyEffect(int effect, Picture picture)
+	{
+System.err.printf("GGapplyEffect(%d)\n", effect);
+		switch (effect) {
+		case EFFECT_TRANSPARENT:
+			picture.applyTransparent(10);
+			break;
+
+		case EFFECT_EDGE:
+		case EFFECT_SEPIA:
+		case EFFECT_POSTERIZE:
+		case EFFECT_GRAYSCALE:
+			picture.applyGrayScale();			
+			break;
+
+		default:
+		}
+	}
+
 
 	public static final int COLLAGE_CELL_WIDTH = 150;
 	public static final int COLLAGE_CELL_HEIGHT = 100;
@@ -317,7 +381,8 @@ public class Picture extends SimplePicture {
 	 * Method creating a collage from a set of pictures
 	 * Assumptions:
 	 *	We resize each picture to size COLLAGE_CELL_WIDTH x COLLAGE_CELL_HEIGHT
-	 *	Assume a minimum height of this picture to be 150
+	 *	We assume (and check) the picture to be large enough to hold the collage
+	 *	Otherwise we print an error
 	 *
 	 * @param	pics	the array with pictures
 	 */
@@ -325,7 +390,7 @@ public class Picture extends SimplePicture {
 	{
 		/* check that there is enough room on the picture */
 		if (this.getHeight() < COLLAGE_CELL_HEIGHT * 2 + 50 ||
-		    COLLAGE_CELL_HEIGHT * pics.length > this.getWidth()) {
+		    COLLAGE_CELL_HEIGHT * pics.length + 50 > this.getWidth()) {
 			System.err.println("Background canvas of insufficient size");
 			return;
 		}
@@ -333,7 +398,7 @@ public class Picture extends SimplePicture {
 		Graphics2D g = (Graphics2D)(this.getGraphics());
 		
 		/* draw the first row */
-		double trX = 0.0, trY = 50.0;
+		double trX = 50.0, trY = 50.0;
 		for (Picture p: pics) {
 			double w = (double)p.getWidth();
 			double h = (double)p.getHeight();
@@ -347,20 +412,43 @@ public class Picture extends SimplePicture {
 		}
 
 		/* draw the second row */
-		trX = 0.0;
-		trY = 150.0;
+		trX = 50.0;
+		trY += 50.0 + COLLAGE_CELL_HEIGHT;
 		for (Picture p: pics) {
-			double w = (double)p.getWidth();
-			double h = (double)p.getHeight();
+			Picture n = new Picture(p);			// copy the picture to 'n' to modify
+
+			/* apply a random effect */
+			int effect = (int)(Math.random() * (EFFECT_NUMBER - 1));
+			applyEffect(effect, n);
+
+			double w = (double)n.getWidth();
+			double h = (double)n.getHeight();
 			AffineTransform T = new AffineTransform();
 
 			T.translate(trX, trY);
 			T.scale(((double)COLLAGE_CELL_WIDTH) / w, ((double)COLLAGE_CELL_HEIGHT) / h);
-			g.drawImage(p.getBufferedImage(), T, null);
+			g.drawImage(n.getBufferedImage(), T, null);
 
 			trX += COLLAGE_CELL_WIDTH;
 		}
 	}
 
+
+	/**
+	 * Draw a collage of a few pictures on top of the current one
+	 *
+	 */
+	public void drawCollage()
+	{
+		Picture[] pList = {
+			new Picture("images/flower1.jpg"),
+			new Picture("images/flower2.jpg"),
+			new Picture("images/flower3.jpg"),
+			new Picture("images/flower4.jpg"),
+			new Picture("images/flower5.jpg"),
+			new Picture("images/flower6.jpg")
+		};
+		makeCollage(pList);
+	}
 } // end of class Picture, put all new methods before this
 
