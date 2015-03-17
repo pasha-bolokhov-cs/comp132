@@ -312,20 +312,121 @@ public class Picture extends SimplePicture {
 	}
 
 	/**
-	 * Make the picture transparent
+	 * Apply edge detection
 	 *
-	 * @param	alpha	how much transparent 
+	 * @param	threshold	when to consider it an edge
+	 *
 	 */
-	public void applyTransparent(int alpha)
+	public void applyEdge(int threshold)
+	{
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight() - 1; y++) {
+				int p = getBasicPixel(x, y);
+				int q = getBasicPixel(x, y + 1);
+
+				double above = (((p & 0xff0000) >> 16) + ((p & 0x00ff00) >> 8) + (p & 0x0000ff)) / 3.0;
+			        double below = (((q & 0xff0000) >> 16) + ((q & 0x00ff00) >> 8) + (q & 0x0000ff)) / 3.0;
+
+				if (Math.abs(above - below) > threshold)
+					setBasicPixel(x, y, 0x000000);
+				else
+					setBasicPixel(x, y, 0xffffff);
+			}
+		}		
+	}
+
+	/**
+	 * Turn picture into sepia
+	 */
+	public void applySepia()
+	{
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight() - 1; y++) {
+				int p = getBasicPixel(x, y);
+				int r = (p >> 16) & 0xff;
+				int g = (p >> 8) & 0xff;
+				int b = p & 0xff;
+
+				if (r < 60) {
+					r = (int)Math.round((double)r * 0.8);
+					g = (int)Math.round((double)g * 0.8);
+					b = (int)Math.round((double)b * 0.8);
+				} else if (r < 190) {
+					b = (int)Math.round((double)b * 0.6);
+				} else {
+					b = (int)Math.round((double)b * 0.8);
+				}
+
+				setBasicPixel(x, y, (r << 16) | (g << 8) | b);
+			}
+		}
+	}
+
+	/**
+	 * Turn into a posterized form
+	 *
+	 */
+	public void applyPosterization()
 	{
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {
 				int p = getBasicPixel(x, y);
-				setBasicPixel(x, y, (p & 0x00ffffff) | (alpha << 24));
+				int r = (p >> 16) & 0xff;
+				int g = (p >> 8) & 0xff;
+				int b = p & 0xff;
+
+				/* posterize */
+				r = (r / 64) * 64 + 31;
+				g = (g / 64) * 64 + 31;
+				b = (b / 64) * 64 + 31;
+
+				setBasicPixel(x, y, (r << 16) | (g << 8) | b);
 			}
 		}
 	}
-	
+
+	/**
+	 * Make a sunset effect
+	 */
+	public void applySunset()
+	{
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight(); y++) {
+				int p = getBasicPixel(x, y);
+				int r = (p >> 16) & 0xff;
+				int g = (p >> 8) & 0xff;
+				int b = p & 0xff;
+
+				/* sunsetize */
+				g = (int)Math.round(g * 0.7);
+				b = (int)Math.round(b * 0.7);
+
+				setBasicPixel(x, y, (r << 16) | (g << 8) | b);
+			}
+		}
+	}
+
+	/**
+	 * Lighten the image
+	 */
+	public void applyLighten(double scale)
+	{
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight(); y++) {
+				int p = getBasicPixel(x, y);
+				int r = (p >> 16) & 0xff;
+				int g = (p >> 8) & 0xff;
+				int b = p & 0xff;
+
+				r = r * scale <= (double)0xff ? (int)Math.round(r * scale) : 0xff;
+				g = g * scale <= (double)0xff ? (int)Math.round(g * scale) : 0xff;
+				b = b * scale <= (double)0xff ? (int)Math.round(b * scale) : 0xff;
+
+				setBasicPixel(x, y, (r << 16) | (g << 8) | b);
+			}
+		}
+	}
+
 	/**
 	 * Turn picture into greyscale
 	 */
@@ -337,17 +438,19 @@ public class Picture extends SimplePicture {
 				int grey = (int)(((p & 0xff0000) >> 16) * 0.299 + 
 						 ((p & 0x00ff00) >> 8) * 0.587 + 
 						 ((p & 0x0000ff) * 0.114) / 3.0); 
-				setBasicPixel(x, y, (grey << 16) + (grey << 8) + grey);
+				setBasicPixel(x, y, (grey << 16) | (grey << 8) | grey);
 			}
 		}
 	}
 
-	public static final int EFFECT_TRANSPARENT = 0;
-	public static final int EFFECT_EDGE = 1;
-	public static final int EFFECT_SEPIA = 2;
-	public static final int EFFECT_POSTERIZE = 3;
-	public static final int EFFECT_GRAYSCALE = 4;
-	public static final int EFFECT_NUMBER = 5;
+
+	public static final int EFFECT_EDGE = 0;
+	public static final int EFFECT_SEPIA = 1;
+	public static final int EFFECT_POSTERIZE = 2;
+	public static final int EFFECT_SUNSET = 3;
+	public static final int EFFECT_LIGHTEN = 4;
+	public static final int EFFECT_GRAYSCALE = 5;
+	public static final int EFFECT_NUMBER = 6;			/* No. effects */
 
 	/**
 	 * Apply an effect to a picture
@@ -357,16 +460,34 @@ public class Picture extends SimplePicture {
 	 */
 	public void applyEffect(int effect, Picture picture)
 	{
-System.err.printf("GGapplyEffect(%d)\n", effect);
 		switch (effect) {
-		case EFFECT_TRANSPARENT:
-			picture.applyTransparent(10);
+		case EFFECT_EDGE:
+			System.err.printf("Edge Detection Effect\n");
+			picture.applyEdge(15);
 			break;
 
-		case EFFECT_EDGE:
 		case EFFECT_SEPIA:
+			System.err.printf("Sepia Toning\n");
+			picture.applySepia();
+			break;
+
 		case EFFECT_POSTERIZE:
+			System.err.printf("Posterization\n");
+			picture.applyPosterization();
+			break;
+
+		case EFFECT_SUNSET:
+			System.err.printf("Sunset Effect\n");
+			picture.applySunset();
+			break;
+
+		case EFFECT_LIGHTEN:
+			System.err.printf("Lighten Effect\n");
+			picture.applyLighten(1.4);
+			break;
+
 		case EFFECT_GRAYSCALE:
+			System.err.printf("Gray Scale\n");
 			picture.applyGrayScale();			
 			break;
 
@@ -414,12 +535,24 @@ System.err.printf("GGapplyEffect(%d)\n", effect);
 		/* draw the second row */
 		trX = 50.0;
 		trY += 50.0 + COLLAGE_CELL_HEIGHT;
+		int[] effects = {					// a pre-set sequence of effects
+			EFFECT_LIGHTEN,
+			EFFECT_GRAYSCALE,
+			EFFECT_POSTERIZE,
+			EFFECT_SUNSET,
+			EFFECT_SEPIA,
+			EFFECT_EDGE
+		};
+		int currEffect = 0;
 		for (Picture p: pics) {
 			Picture n = new Picture(p);			// copy the picture to 'n' to modify
 
-			/* apply a random effect */
-			int effect = (int)(Math.random() * (EFFECT_NUMBER - 1));
-			applyEffect(effect, n);
+			/* uncomment this to apply effects randomly */
+//			int effect = (int)Math.round(Math.random() * (EFFECT_NUMBER - 1));
+//			applyEffect(effect, n);
+
+			/* apply effects in the pre-set sequence */
+			applyEffect(effects[(currEffect++) % EFFECT_NUMBER], n);
 
 			double w = (double)n.getWidth();
 			double h = (double)n.getHeight();
